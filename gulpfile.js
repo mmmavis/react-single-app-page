@@ -2,17 +2,40 @@ var gulp = require("gulp");
 var gutil = require("gulp-util");
 var webpack = require('webpack');
 var gulpWebpack = require('webpack-stream');
+var sourcemaps = require('gulp-sourcemaps');
+var babel = require('gulp-babel');
 var webpackConfig = require("./webpack.config.js");
-var lightweightDynamicServer = require("./app.js");
 
 var PORT = '9090';
 
-gulp.task("watch", function() {
-  gulp.watch(["pages/**/*"], ["webpack:build"]);
+var FILES_TO_WATCH_AND_PROCESS = [  '**/*.js', 
+                                    '**/*.jsx', 
+                                    '!**/bundle.js',
+                                    '!node_modules/**', 
+                                    '!dist/**' ];
+
+gulp.task("watch", ['webpack','copy-index-html'], function() {
+  gulp.watch(FILES_TO_WATCH_AND_PROCESS, ["webpack"]);
+});
+
+gulp.task('copy-index-html', function() {
+  return gulp.src('public/index.html', {
+    base: './public'
+   })
+  .pipe(gulp.dest('./dist/public'));
 });
 
 
-gulp.task('webpack', function() {
+gulp.task('es6to5', function() {
+  return gulp.src(FILES_TO_WATCH_AND_PROCESS)
+    .pipe(sourcemaps.init())
+    .pipe(babel({
+      presets: ['es2015', 'react']
+    }))
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('webpack', ['es6to5'], function() {
   // console.log("\n\n\n\n\ webpackConfig ////////////", webpackConfig);
   return gulp.src(webpackConfig.entry)
     .pipe(gulpWebpack(webpackConfig, webpack))
@@ -44,13 +67,13 @@ gulp.task("webpack:build", function(callback) {
 });
 
 
-gulp.task('default', ['webpack:build'], function() {
-  console.log("\n\n\n\n\ hi ////////////");
-});
+// gulp.task('default', ['es6to5','webpack','copy-index-html'], function() {
+//   console.log("\n\n\n\n\ hi ////////////");
+// });
 
-gulp.task('app', ['webpack:build', 'watch'], function() {
-  lightweightDynamicServer.listen(PORT, function() {
-    gutil.log('Lightweight dynamic server listening at ' +
+gulp.task('app', ['watch'], function() {
+  require("./dist/app.js").listen(PORT, function() {
+    gutil.log('///// Server listening at ' +
               gutil.colors.green.bold(PORT) + '.');
   });
 });

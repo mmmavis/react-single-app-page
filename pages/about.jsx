@@ -4,7 +4,7 @@ export default class About extends React.Component {
   render() {
     return (
       <div>
-        I'm About page.1
+        I'm About page.
       </div>
     );
   }
