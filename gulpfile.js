@@ -14,17 +14,16 @@ var FILES_TO_WATCH_AND_PROCESS = [  '**/*.js',
                                     '!node_modules/**', 
                                     '!dist/**' ];
 
-gulp.task("watch", ['webpack','copy-index-html'], function() {
-  gulp.watch(FILES_TO_WATCH_AND_PROCESS, ["webpack"]);
+gulp.task("watch", ['webpack', 'copy-static-files'], function() {
+  gulp.watch(FILES_TO_WATCH_AND_PROCESS.concat(['public/**']), ["webpack"]);
 });
 
-gulp.task('copy-index-html', function() {
-  return gulp.src('public/index.html', {
+gulp.task('copy-static-files', function() {
+  return gulp.src(['public/index.html', 'public/style.css'], {
     base: './public'
    })
   .pipe(gulp.dest('./dist/public'));
 });
-
 
 gulp.task('es6to5', function() {
   return gulp.src(FILES_TO_WATCH_AND_PROCESS)
@@ -35,7 +34,7 @@ gulp.task('es6to5', function() {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('webpack', ['es6to5'], function() {
+gulp.task('webpack', ['es6to5', 'copy-static-files'], function() {
   // console.log("\n\n\n\n\ webpackConfig ////////////", webpackConfig);
   return gulp.src(webpackConfig.entry)
     .pipe(gulpWebpack(webpackConfig, webpack))
@@ -67,7 +66,7 @@ gulp.task("webpack:build", function(callback) {
 });
 
 
-// gulp.task('default', ['es6to5','webpack','copy-index-html'], function() {
+// gulp.task('default', ['es6to5','webpack','copy-static-files'], function() {
 //   console.log("\n\n\n\n\ hi ////////////");
 // });
 

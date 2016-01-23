@@ -1,11 +1,13 @@
 import React from 'react';
-import { Router, Route } from 'react-router';
-import createHistory from 'history';
+import { Route, IndexRoute } from 'react-router';
+import Index from './pages/index';
+import Home from './pages/home';
+import About from './pages/about';
 
-module.exports = (
-  <Route path="/" handler={require('./pages/home')}>
-    <Route name="home" path="/" handler={require('./pages/home')} />
-    <Route name="about" path="/about" handler={require('./pages/about')} />
+export default (
+  <Route path="/" component={Index}>
+    <IndexRoute component={Home}/>
+    <Route path="about" component={About} />
   </Route>
 );
 
