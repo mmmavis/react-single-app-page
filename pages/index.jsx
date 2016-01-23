@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from '../components/Navbar';
 
 export default React.createClass({
   render() {
@@ -11,6 +12,7 @@ export default React.createClass({
         </head>
         <body>
           <div id="app" className="container">
+            <Navbar />
             {this.props.children}
           </div>
           <script src="../bundle.js"></script>
