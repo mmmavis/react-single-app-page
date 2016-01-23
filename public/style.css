@@ -1,0 +1,10 @@
+body {
+  font-family: Arial;
+  background: #333;
+  color: #ccc;
+}
+
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+}
