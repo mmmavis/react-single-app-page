@@ -1,5 +1,7 @@
 var gulp = require("gulp");
 var gutil = require("gulp-util");
+var path = require('path');
+var less = require("gulp-less");
 var webpack = require('webpack');
 var gulpWebpack = require('webpack-stream');
 var sourcemaps = require('gulp-sourcemaps');
@@ -18,8 +20,17 @@ gulp.task("watch", ['webpack', 'copy-static-files'], function() {
   gulp.watch(FILES_TO_WATCH_AND_PROCESS.concat(['public/**']), ["webpack"]);
 });
 
-gulp.task('copy-static-files', function() {
-  return gulp.src(['public/index.html', 'public/style.css'], {
+gulp.task('less', function() {
+    return gulp.src('public/less/style.less')
+      .pipe(sourcemaps.init())
+      .pipe(less({
+        paths: [path.join(__dirname, 'public', 'less')],
+      }))
+      .pipe(gulp.dest('./dist/public'));
+  });
+
+gulp.task('copy-static-files', ['less'], function() {
+  return gulp.src(['public/index.html'], {
     base: './public'
    })
   .pipe(gulp.dest('./dist/public'));

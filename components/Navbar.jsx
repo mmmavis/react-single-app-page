@@ -1,11 +1,13 @@
 import React from 'react';
+import NavbarLink from './NavbarLink';
 
 export default class Navbar extends React.Component {
   render() {
     return (
       <div id="navbar">
-        <a href="/">Home</a>
-        <a href="/about">About</a>
+        <NavbarLink path="/" pageName="Home" />
+        <NavbarLink path="/about" pageName="About" />
+        <NavbarLink path="/curriculum" pageName="Curriculum" />
       </div>
     );
   }

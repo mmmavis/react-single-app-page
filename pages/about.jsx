@@ -1,12 +1,10 @@
 import React from 'react';
+import PageTemplate from '../components/PageTemplate';
 
 export default class About extends React.Component {
   render() {
     return (
-      <div>
-        <h1>I'm About page.</h1>
-        <p>Hiiiiii</p>
-      </div>
+      <PageTemplate apiEndpoint='http://localhost:8888/wp-json/wp/v2/pages/8' />
     );
   }
 }

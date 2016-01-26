@@ -5,14 +5,14 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RoutingContext } from 'react-router';
 import routes from './routes';
-import Homepage from './pages/home';
 
 var app = express();
 
 app.set('view engine', 'html');
 app.use(express.static(__dirname));
 
-app.get('/*', function (req, res) {  
+app.get('/*', function (req, res) {
+  console.log("\n\n==== server hit ==== \n\n", req.path);
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
       console.log("error :(");
