@@ -1,15 +1,25 @@
 import express from 'express';
 import path from 'path';
-import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RoutingContext } from 'react-router';
-import routes from './routes';
+import routes from './routes.jsx';
+
+var PORT = '9090';
 
 var app = express();
 
 app.set('view engine', 'html');
-app.use(express.static(__dirname));
+
+function serveStaticFiles(pathRequested, res) {
+  if ( pathRequested === "/public/style.css" ) {
+    res.sendFile( path.resolve("public/style.css") );
+  } else if ( pathRequested === "/bundle.js" ) {
+    res.sendFile( path.resolve("bundle.js") );
+  } else {
+    res.status(404).send('Not found');
+  }
+}
 
 app.get('/*', function (req, res) {
   console.log("\n\n==== server hit ==== \n\n", req.path);
@@ -23,9 +33,11 @@ app.get('/*', function (req, res) {
     } else if (renderProps) {
       res.status(200).send('<!DOCTYPE html>' + ReactDOMServer.renderToString(<RoutingContext {...renderProps} />))
     } else {
-      res.status(404).send('Not found')
+      serveStaticFiles(req.path, res);
     }
   })
 });
 
-module.exports = app;
+app.listen(PORT, function() {
+  console.log("\n///// Server listening at "+ PORT + " /////\n");
+});

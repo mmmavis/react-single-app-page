@@ -1,5 +1,5 @@
 import React from 'react';
-import PageTemplate from '../components/PageTemplate';
+import PageTemplate from '../components/PageTemplate.jsx';
 
 export default class Homepage extends React.Component {
   render() {
