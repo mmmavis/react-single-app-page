@@ -21,8 +21,28 @@ function serveStaticFiles(pathRequested, res) {
   }
 }
 
+function htmlTemplate(appHtmlAsString) {
+  return (`
+    <!DOCTYPE html>
+    <html>
+      <head lang="en">
+        <meta charSet="UTF-8" />
+        <title>Simple React app with Webpack</title>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css' />
+        <link href="../public/style.css" type="text/css" rel="stylesheet" />
+      </head>
+      <body>
+        <div id="app" className="container">
+          ${appHtmlAsString}
+        </div>
+        <script src="../bundle.js"></script>
+      </body>
+    </html>
+  `);
+}
+
 app.get('/*', function (req, res) {
-  console.log("\n\n==== server hit ==== \n\n", req.path);
+  console.log("==== server hit, req.path = ", req.path);
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
       console.log("error :(");
@@ -31,7 +51,7 @@ app.get('/*', function (req, res) {
       console.log("redirectLocation = ", redirectLocation);
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      res.status(200).send('<!DOCTYPE html>' + ReactDOMServer.renderToString(<RoutingContext {...renderProps} />))
+      res.status(200).send( htmlTemplate(ReactDOMServer.renderToStaticMarkup(<RoutingContext {...renderProps} />)) );
     } else {
       serveStaticFiles(req.path, res);
     }

@@ -9,7 +9,6 @@ export default class PageTemplate extends React.Component {
     };
   }
   componentDidMount() {
-    console.log(`Homepage componentDidMount`);
     var self = this;
 
     request
@@ -25,9 +24,6 @@ export default class PageTemplate extends React.Component {
         console.log(data);
       });
 
-
-
-
     request
       .get(self.props.apiEndpoint)
       .accept(`json`)
@@ -39,7 +35,6 @@ export default class PageTemplate extends React.Component {
       });
   }
   render() {
-    console.log(`Homepage Rendered`);
     var page = this.wpPage;
 
     return (
