@@ -3,7 +3,8 @@ import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RoutingContext } from 'react-router';
-import routes from './routes.jsx';
+import routes from './Routes.jsx';
+import PageWrapper from './PageWrapper.jsx';
 
 var PORT = '9090';
 
@@ -21,26 +22,6 @@ function serveStaticFiles(pathRequested, res) {
   }
 }
 
-function htmlTemplate(appHtmlAsString) {
-  return (`
-    <!DOCTYPE html>
-    <html>
-      <head lang="en">
-        <meta charSet="UTF-8" />
-        <title>Simple React app with Webpack</title>
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css' />
-        <link href="../public/style.css" type="text/css" rel="stylesheet" />
-      </head>
-      <body>
-        <div id="app" className="container">
-          ${appHtmlAsString}
-        </div>
-        <script src="../bundle.js"></script>
-      </body>
-    </html>
-  `);
-}
-
 app.get('/*', function (req, res) {
   console.log("==== server hit, req.path = ", req.path);
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -51,7 +32,11 @@ app.get('/*', function (req, res) {
       console.log("redirectLocation = ", redirectLocation);
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      res.status(200).send( htmlTemplate(ReactDOMServer.renderToStaticMarkup(<RoutingContext {...renderProps} />)) );
+      // [FIXME] using ReactDOMServer.renderToString gives me the following warning:
+      // "Warning: render(...): Replacing React-rendered children with a new root component. 
+      // If you intended to update the children of this node, you should instead have 
+      // the existing children update their state and render the new components instead of calling ReactDOM.render."
+      res.status(200).send('<!DOCTYPE html>'+ ReactDOMServer.renderToStaticMarkup(<PageWrapper><RoutingContext {...renderProps} /></PageWrapper>));
     } else {
       serveStaticFiles(req.path, res);
     }
