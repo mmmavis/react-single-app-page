@@ -4,7 +4,10 @@ import PageTemplate from '../components/PageTemplate.jsx';
 export default class Homepage extends React.Component {
   render() {
     return (
-      <PageTemplate apiEndpoint='http://localhost:8888/wp-json/wp/v2/pages/6' />
+      <PageTemplate>
+        <h1>Hello World!</h1>
+        <p>I'm the Home page</p>
+      </PageTemplate>
     );
   }
 }

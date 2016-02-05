@@ -8,21 +8,34 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 1.6rem;
   font-weight: 300;
-  background: #333;
-  color: #ccc;
+  background: @white;
+  margin: 0;
+  color: @bodyTextGrey;
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto 2rem auto;
+  padding: 0 3rem;
 }
 
 #app {
-  max-width: 80rem;
-  margin: 20px auto;
+  overflow: hidden;
+}
+
+#main-container {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
 }
 
 #navbar {
+  background: @black;
   a {
     display: inline-block;
-    margin-right: 1.5rem;
-    padding: 1rem 2rem;
-    background: darken(@navItemBg, 35%);
+    padding: 1.8rem 2.5rem;
     color: @white;
     text-decoration: none;
     &:hover {

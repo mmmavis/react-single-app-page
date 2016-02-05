@@ -6,7 +6,9 @@ export default React.createClass({
     return (
       <div>
         <Navbar />
-        {this.props.children}
+        <div id="main-container" className="container">
+          {this.props.children}
+        </div>
       </div>
     );
   }

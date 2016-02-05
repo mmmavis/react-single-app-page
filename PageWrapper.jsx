@@ -11,7 +11,7 @@ export default React.createClass({
           <link href="../public/style.css" type="text/css" rel="stylesheet" />
         </head>
         <body>
-          <div id="app" className="container">
+          <div id="app">
             {this.props.children}
           </div>
           <script src="../bundle.js"></script>
