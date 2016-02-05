@@ -20,8 +20,8 @@ module.exports = {
   entry:'./app.js',
   output: {
     path: __dirname,
-    filename: 'webpacked-app.js',
-    library: 'webpacked-app',
+    filename: 'app.bundle.js',
+    library: 'app.bundle',
     libraryTarget: 'commonjs2'
   },
   module: {

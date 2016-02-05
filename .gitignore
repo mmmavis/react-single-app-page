@@ -2,4 +2,4 @@ node_modules
 dist
 bundle.js
 *.css
-webpacked-app.js
+app.bundle.js
